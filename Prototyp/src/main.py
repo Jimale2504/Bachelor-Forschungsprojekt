@@ -66,7 +66,7 @@ class SudokuGenerator:
         return tuple(grid)  
 
     def relabel_to_min(self, grid):  
-        
+
         mapping = {}
         next_num = 1
         new_grid = []
@@ -117,7 +117,7 @@ class SudokuGenerator:
             # Weiterdrehen für nächsten Loop
             current = self.rotate_90(current)
             
-        # Nimm das "kleinste" Tupel als Repräsentant für die klasse
+        # Nimm das kleinste Tupel als Repräsentant für die klasse
         return min(variations)
             
     def save_to_file(self, filename="sudokus.txt"):
