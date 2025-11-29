@@ -37,13 +37,13 @@ class SudokuGenerator:
         
         for row in range(self.n):                          #Checkt ob num schon im block vorhanden ist
             for col in range(self.n):
-                idx = (block_row_start + row) * self.size + (block_col_start + col)   # row=⌊idx/size⌋,=col=idx%size -> idx=(row)*size + col
+                idx = (block_row_start + row) * self.size + (block_col_start + col)   # row=⌊idx//size⌋,=col=idx%size -> idx=(row)*size + col
                 if grid[idx] == num: 
                     return False
         return True
 
 
-    def solve_all(self, grid, index=0): #Backtracking Algorithmus
+    def solve_grid(self, grid, index=0): #Backtracking Algorithmus
         
         if index == self.grid_len:
             # fALLS Lösung gefunden Kopie zurückgeben
@@ -52,13 +52,13 @@ class SudokuGenerator:
 
         # Wenn Feld schon belegt überspringen
         if grid[index] != 0:
-            yield from self.solve_all(grid, index + 1)
+            yield from self.solve_grid(grid, index + 1)
             return
 
         for num in range(1, self.size + 1):
             if self.is_valid(grid, index, num):  
                 grid[index] = num
-                yield from self.solve_all(grid, index + 1)
+                yield from self.solve_grid(grid, index + 1)
                 grid[index] = 0  # Backtrack
 
 
@@ -66,11 +66,7 @@ class SudokuGenerator:
         return tuple(grid)  
 
     def relabel_to_min(self, grid):  
-        """
-        Relabeling: Mappe die Zahlen so um, dass die Sequenz
-        lexikographisch minimal wird.
-        Beispiel: Ein Grid [2, 1, 3...] wird zu [1, 2, 3...].
-        """
+        
         mapping = {}
         next_num = 1
         new_grid = []
@@ -113,7 +109,7 @@ class SudokuGenerator:
 
         # Mit (4 Rotationen * 2 Spiegelungen) werden alle 8 varianten erzeugt
         for _ in range(4): # Wegen 4 Rotationen
-            # Normal
+            
             variations.append(self.relabel_to_min(current))
 
             variations.append(self.relabel_to_min(self.mirror(current)))
@@ -145,7 +141,7 @@ class SudokuGenerator:
         
         empty = self.get_empty_grid()
         
-        for solution in self.solve_all(empty):
+        for solution in self.solve_grid(empty):
             self.total_found += 1
             
             # Berechne die  Kanonische Form
