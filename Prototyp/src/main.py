@@ -1,4 +1,17 @@
 import sys
+from copy import deepcopy
+
+class SudokuGenerator:
+    def __init__(self, n=2):
+        
+        #n=2 wegen (2x2 Blöcken) steht für 4x4 Gri
+        
+        self.n = n
+        self.size = n * n
+        
+        self.grid_len = self.size * self.size
+        self.unique_hashes = set()
+        self.total_found = 0
 class Sudoku4x4py:
     def __init__(self):
         self.n = 2          # Blockgröße
