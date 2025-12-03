@@ -4,7 +4,7 @@ from copy import deepcopy
 class SudokuGenerator:
     def __init__(self, n=2):
         
-        #n=2 wegen (2x2 Blöcken) steht für 4x4 Grid 
+        #n=2 wegen (2x2 Blöcken) steht für 4x4 Gri
         
         self.n = n
         self.size = n * n
