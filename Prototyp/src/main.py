@@ -1,17 +1,6 @@
 import sys
 from copy import deepcopy
 
-class SudokuGenerator:
-    def __init__(self, n=2):
-        
-        #n=2 wegen (2x2 Blöcken) steht für 4x4 Gri
-        
-        self.n = n
-        self.size = n * n
-        
-        self.grid_len = self.size * self.size
-        self.unique_hashes = set()
-        self.total_found = 0
 class Sudoku4x4py:
     def __init__(self):
         self.n = 2          # Blockgröße
@@ -41,7 +30,7 @@ class Sudoku4x4py:
                 if grid[idx] == num: return False
         return True
 
-    def solve(self, grid, index=0, callback=None): #Backtracking
+    def solve(self, grid, index=0, callback=None): #Backtracking zum solven des Sudokus
         if index == 16:
             if callback: callback(list(grid))
             return
@@ -56,7 +45,7 @@ class Sudoku4x4py:
                 self.solve(grid, index + 1, callback)
                 grid[index] = 0 # Reset
 
-    # --- 2. TRANSFORMATIONEN (Geometrie) ---
+    
     def rotate(self, grid):
         """Dreht 90 Grad im Uhrzeigersinn"""
         new_grid = [0] * 16
@@ -67,7 +56,7 @@ class Sudoku4x4py:
                 new_grid[new_idx] = grid[old_idx]
         return new_grid
 
-    def transpose(self, grid):
+    def mirror(self, grid):
         """Spiegelt an der Diagonalen"""
         new_grid = [0] * 16
         for r in range(4):
@@ -75,8 +64,7 @@ class Sudoku4x4py:
                 new_grid[c * 4 + r] = grid[r * 4 + c]
         return new_grid
 
-    def relabel(self, grid):
-        """Macht das Grid 'Zahlen-agnostisch' (MinLex Standard)"""
+    def relabel(self, grid):  
         mapping = {}
         next_num = 1
         new_grid = []
@@ -87,12 +75,12 @@ class Sudoku4x4py:
             new_grid.append(mapping[num])
         return tuple(new_grid) # Tuple für Vergleichbarkeit
 
-    # --- 3. DER KANONISCHE CHECK (Das Herzstück) ---
-    def is_canonical(self, grid):
-        """
+    """
         Prüft: Ist 'grid' das lexikografisch kleinste (MinLex) 
         aller seiner geometrischen Variationen?
         """
+    def is_canonical(self, grid):
+        
         original_minlex = self.relabel(grid)
         
         current = list(grid)
@@ -105,7 +93,7 @@ class Sudoku4x4py:
                 return False # Wir haben eine kleinere Variante gefunden -> Original ist kein MinLex!
 
             # 2. Prüfe Spiegelung der aktuellen Rotation
-            mirrored = self.transpose(current)
+            mirrored = self.mirror(current)
             variant_mirror = self.relabel(mirrored)
             if variant_mirror < original_minlex:
                 return False 
@@ -115,7 +103,7 @@ class Sudoku4x4py:
             
         return True
 
-    # --- MAIN ---
+    
     def run(self):
         print("Generiere 4x4 Essentially Different Sudokus...")
         
@@ -123,7 +111,7 @@ class Sudoku4x4py:
         grid = self.get_empty_grid()
         grid[0:4] = [1, 2, 3, 4]
         
-        # Wir starten den Solver erst ab Index 4 (Zeile 2)
+        #Starte den Solver erst ab Zeile 2
         self.solve(grid, index=4, callback=self.process_solution)
         
         print(f"\n Anzahl Essentially Different Sudokus: {self.count_ed}")

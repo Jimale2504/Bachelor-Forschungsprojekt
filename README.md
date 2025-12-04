@@ -1,2 +1,3 @@
 # Bachelor-Forschungsprojekt
-Man kann die 5,4 Milliarden E.D Sudokus mit dem Virtual-catalog von https://github.com/GPenet/Virtual-catalog-DLL generieren
+This project uses code from Virtual-catalog-DLL licensed under GPL-3.0.
+Virtual-catalog-DLL from https://github.com/GPenet/Virtual-catalog-DLL
