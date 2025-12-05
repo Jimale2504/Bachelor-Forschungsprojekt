@@ -9,21 +9,26 @@ Das Skript **`run.py`** dient als Python‑Wrapper für das C++‑Tool **`sktvca
 
 ## ▶️ Nutzung
 
-Du kannst ED‑Sudokus entweder über `run.py` generieren oder direkt den folgenden Konsolenbefehl verwenden:
+Die ED‑Sudokus können entweder über `run.py` generiert werden oder man kann direkt den folgenden Konsolenbefehl verwenden:
 
 ```bash
 sktvcat -c0 -v0-[anfang] -v1-[ende] -v2-1
 ```
 
-Dabei ersetzt du `anfang` und `ende` durch die jeweiligen Band‑Indizes.
+Dabei ersetzt du `anfang` und `ende` durch die jeweiligen Band‑Indizes.(Sollte zwischen 0-415 sein).
 
 **Beispiel:**
 
 ```bash
 sktvcat -c0 -v0-0 -v1-415
 ```
+Dies gibt alle ED‑Sudokus aus.
 
-Dies gibt alle ED‑Sudokus im angegebenen Bereich aus.
+Mann kann auch ein spezifischen ED-Grid mit Folgendem Befehl generieren(mit dem Indec RANK von 1 bis 5,472,730,538)
+```bash
+sktvcat -c1 -v0-[RANK]
+```
+
 
 ## 📚 Benötigte Bibliotheken
 
